@@ -1,7 +1,0 @@
-echo '{"id": {"value": "my-id", "type": "string"}, "foo": {"value": 6, "type": "number"}}' | jq -c '{"id": .id.value, "foo": .foo.value}'
-
-jq -c 'to_entries | map( {(.key): .value.value} ) | add'
-
-echo '{"id": "my-id", "foo": 6}' | jq -c --arg revision "rev-1" '{"revision": $revision, "output": (. | tostring) }'
-
-echo '{"id": {"value": "my-id", "type": "string"}, "foo": {"value": 6, "type": "number"}}' | jq -c --arg revision "rev-1" '{"revision": $revision, "output": ( to_entries | map( {(.key): .value.value} ) | add | tostring ) }'
