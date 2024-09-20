@@ -1,19 +1,21 @@
-kill # Send a signal to a process
-killall # Kill processes by name
-nice # Run a command with modified scheduling priority
-renice # Alter priority of running processes
+#!/bin/bash
 
+kill                                     # Send a signal to a process
+killall                                  # Kill processes by name
+nice                                     # Run a command with modified scheduling priority
+renice                                   # Alter priority of running processes
 
-# nice – Run a Program with a Modified Scheduling Priority
-nice -n 10 command                    # Run a command with a nice value of 10 (lower priority)
-nice -n -5 command                    # Run a command with a higher priority (negative nice value)
+# kill – Send a signal to a process
+kill <pid>                               # Terminate a process with the specified PID
+kill -9 <pid>                            # Forcefully kill a process with the specified PID
 
-# renice – Change the Priority of a Running Process
-renice 10 -p PID                      # Change the nice value of a process to 10 by specifying its PID
-renice -5 -u username                 # Change the nice value of all processes for a specific user to -5
+# killall – Kill processes by name
+killall <process_name>                   # Terminate all processes with the specified name
+killall -9 <process_name>                # Forcefully kill all processes with the specified name
 
-# kill – Terminate Processes by PID
-kill PID                              # Send the default SIGTERM (15) signal to a process by PID
-kill -9 PID                           # Forcefully terminate a process using SIGKILL (9)
-killall process_name                  # Kill all processes with a specific name
-kill -HUP PID                         # Send the SIGHUP signal to restart a process without terminating it
+# nice – Run a command with modified scheduling priority
+nice -n 10 command                        # Run a command with a nice value of 10 (lower priority)
+
+# renice – Alter priority of running processes
+renice 15 -p <pid>                       # Change the priority of a process with the specified PID to 15
+renice -n -5 -p <pid>                    # Increase the priority of a process (lowering the nice value)

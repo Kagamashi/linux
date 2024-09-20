@@ -1,21 +1,23 @@
-ps # Report process status
-top # Display Linux tasks
-htop # Interactive process viewer
-pidof # Find the process ID of a running program
+#!/bin/bash
 
+ps                                       # Report process status
+top                                      # Display Linux tasks
+htop                                     # Interactive process viewer
+pidof                                    # Find the process ID of a running program
 
-# ps – Report a Snapshot of Current Processes
-ps aux                                # Show all running processes in detail (user, CPU, memory usage, etc.)
-ps -ef                                # Display processes in full format (UID, PID, PPID, etc.)
-ps -u username                        # Show processes for a specific user
-ps -p PID                             # Display detailed information about a specific process by PID
+# ps – Report process status
+ps                                        # Display current processes for the user
+ps aux                                    # Display detailed information about all running processes
+ps -ef                                     # Show all processes in full format
 
-# top – Display Real-Time System Process Information
-top                                   # Start the top utility to monitor processes in real-time
-top -u username                       # Show only processes for a specific user
-top -n 1                              # Display only one iteration of process list (useful in scripts)
+# top – Display Linux tasks
+top                                       # Display real-time system processes
+top -u <username>                         # Show processes for a specific user
 
-# htop – Interactive Process Viewer (Improved top)
-htop                                  # Start htop (must be installed) for an enhanced real-time view of system processes
-htop -u username                      # Show processes for a specific user in htop
-htop -p PID                           # Show details for a specific process by PID
+# htop – Interactive process viewer
+# To use htop, simply run the command:
+# htop
+# (You may need to install htop using your package manager if it's not already installed.)
+
+# pidof – Find the process ID of a running program
+pidof <process_name>                     # Get the PID of a specified running process
