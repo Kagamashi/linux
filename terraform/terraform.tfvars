@@ -1,5 +1,0 @@
-location            = "East US"
-resource_group_name = "my-learning-vms-rg"
-admin_username      = "adminuser"
-ssh_public_key_path = "~/.ssh/id_rsa.pub"
-vm_size             = "Standard_B2s"
