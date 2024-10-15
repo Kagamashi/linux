@@ -1,4 +1,3 @@
-
 # ssh
 program for logging into remote machine and for executing commands on remote machine. It is intended to provide secure encrypted communications between two untrusted hosts over an insecure network.
 OpenSSH is an open source implementation of SSH protocol.
