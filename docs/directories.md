@@ -22,6 +22,7 @@ sudo visudo
 
 /etc/pam.d
 
+.git/config
 
 NETWORKING
 

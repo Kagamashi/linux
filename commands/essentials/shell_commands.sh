@@ -14,6 +14,7 @@ echo "Current date and time: $(date)"  # Print current date and time
 date                                    # Show the current date and time
 date "+%Y-%m-%d %H:%M:%S"              # Display date in a custom format
 date -s "2024-01-01 12:00:00"          # Set the system date and time (requires sudo)
+data +%Z # Show current timezone
 
 # history – Show command history
 history                                 # Show the command history list
