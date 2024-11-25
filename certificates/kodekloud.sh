@@ -412,142 +412,620 @@ git push origin master
 #     Name: bob
 #     Password: caleston123
 
+getenforce | sudo tee /opt/selinuxmode.txt
+
+sudo restorecon -v /usr/bin/less
 
 
 # --------------------------
 
+# Nginx is installed but it's not running on caleston-lp10. Make the necessary changes so that:
+#   1. Nginx is started immediately.
+#   2. And also, Nginx will start up automatically every time the system boots up.
+# After starting Nginx, it has spawned at least 3 processes. We are not interested in the master process, only the worker processes. 
+# Under what username are these worker processes running? Create a new file at /opt/nginxuser.txt and add a single line to it with that username, other than bob.
 
+sudo systemctl start nginx
 
+sudo systemctl enable nginx
 
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
+ps -ef | grep nginx
 
 
 # --------------------------
 
+# A basic LVM structure exists on the node01. Make some changes to it:
+# The volume group called volume1 currently only includes /dev/vdb. Add /dev/vdc to volume1.
+# We have a logical volume called lv1. Resize this logical volume to2GB`.
+# Credentials to access node01:
+#   Name: bob
+#   Password: caleston123
 
+sudo vgextend volume1 /dev/vdc
 
-
-
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
+sudo lvresize --size 2G /dev/volume1/lv1
 
 
 # --------------------------
 
+# Perform the following tasks on node01:
+#   1. Install Git.
+#   2. In your home directory, download the entire repository from https://github.com/htop-dev/htop. By default, this action should create a new subdirectory called htop where all the project's files are located.
+#   3. Switch to the htop subdirectory. Follow the project's instructions to build (compile) the htop application.
+#   4. Install the newly built htop application. By default, the application should be installed in /usr/local, in the bin subdirectory
+# Credentials to access node01:
+#   Name: bob
+#   Password: caleston123
+# Switch back to caleston-lp10 once the task is done
 
+sudo apt install -y git
 
+git clone https://github.com/htop-dev/htop
+cd htop
 
+sudo apt update
+sudo apt install libncursesw5-dev autotools-dev autoconf automake build-essential
 
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
-
-
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
+# install htop
+./autogen.sh
+./configure
+make
+sudo make install
 
 
 # --------------------------
 
+# Create a virtual machine with the following parameters on caleston-lp10:
+#   1. For the operating system information parameter use the ubuntu22.04.
+#   2. Name the virtual machine mockexam2.
+#   3. Assign 1024 MB of RAM to this machine.
+#   4. Assign it one virtual CPU.
+#   5. Import the disk image /var/lib/libvirt/images/ubuntu.img to this virtual machine.
+#   6. At the end of your command, you can add the parameter --noautoconsole to avoid waiting for this virtual machine to boot up, and not get stuck in the virtual console after it initializes.
+# After you create this virtual machine, run a separate command to make mockexam2 automatically start up every time the system boots up.
 
+virt-install \
+--name mockexam2 \
+--ram 1024 \
+--vcpus=1 \
+--os-variant=ubuntu22.04 \
+--import \
+--disk path=/var/lib/libvirt/images/ubuntu.img \
+--noautoconsole
 
-
-
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
-
-
-# --------------------------
-
-
-
-
-
-# --------------------------
-
-
-
+virsh autostart mockexam2
 
 
 # --------------------------
 
+# Create a network bridge between these network interfaces: [ "eth1", and "eth2"] on node01. Call the bridge bridge1. 
+# Turn DHCP off for IPv4 for both interfaces. However, for the bridge itself, turn DHCP on for IPv4.
+# Credentials to access node01:
+#   Name: bob
+#   Password: caleston123
 
+# /etc/netplan/99-bridge.yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth1:
+      dhcp4: no
+    eth2:
+      dhcp4: no
+  bridges:
+    bridge1:
+      dhcp4: yes
+      interfaces:
+        - eth1
+        - eth2
+
+netplan apply
+
+
+# --------------------------
+
+# Perform the following tasks on node01:
+#   1. Remove the Docker image called nginx.
+#   2. Start a container based on the httpd image. Name it apache_container. Instruct Docker to redirect connections coming to port 80 on the host to port 80 of this container. Also instruct Docker to restart this container only on failure, with a maximum number of retries set to 3 (you will have to look through the correct manual to find the parameter you need).
+# Credentials to access node01:
+#   Name: bob
+#   Password: caleston123
+# Switch back to caleston-lp10 once the task is done
+
+docker rm nginx_container
+
+docker rmi nginx
+
+docker run --detach --publish 80:80 --name=apache_container --restart=on-failure:3 httpd
 
 
 # --------------------------
 
+# The node01 was configured to use LDAP entries from a certain server. However, some configuration options are wrong. Edit the correct configuration files and fix the following mistakes:
+#   1. Our name service local daemon is configured to look for an LDAP server at the wrong IP address (currently 10.9.9.8). Fix this and configure the correct IP which is: 192.168.121.167. Make sure your changes become active after you edit the configuration file.
+#   2. Our system is currently configured to get group data and password data from the LDAP server but not user data. Configure it to get user data as well.
+# Credentials to access node01:
+#   Name: bob
+#   Password: caleston123
+# Switch back to caleston-lp10 once the task is done
+
+## /etc/nslcd.conf:
+# The user and group nslcd should run as.
+uid nslcd
+gid nslcd
+
+# The location at which the LDAP server(s) should be reachable.
+uri ldap://192.168.121.167/ #updated
+
+# The search base that will be used for all queries.
+base dc=example,dc=org
+
+# The LDAP protocol version to use.
+#ldap_version 3
+
+# The DN to bind with for normal lookups.
+#binddn cn=annonymous,dc=example,dc=net
+#bindpw secret
 
 
+## /etc/nsswitch.conf:
+# Example configuration of GNU Name Service Switch functionality.
+# If you have the `glibc-doc-reference' and `info' packages installed, try:
+# `info libc "Name Service Switch"' for information about this file.
+passwd:         files systemd ldap #updated
+group:          files systemd ldap
+shadow:         files ldap
+gshadow:        files
+
+## restart nslcd service
+sudo systemctl restard nslcd
 
 
 # --------------------------
 
+# Nginx is installed and a configuration file for running Nginx as a reverse proxy is already available. Perform the following tasks:
+# 1. Disable the default Nginx website configuration.
+# 2. Find the correct file where the reverse proxy configuration for Nginx is defined. Edit this file and make it redirect requests to "google.com".
+# 3. Make Nginx use this configuration file so that it starts working as a reverse proxy.
 
+sudo rm /etc/nginx/sites-enabled/default
 
+# /etc/nginx/sites-available/proxy.conf
+server {
+    listen 80;
+    location / {
+        proxy_pass http://google.com;
+        include proxy_params;
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/proxy.conf /etc/nginx/sites-enabled/proxy.conf
+
+sudo systemctl reload nginx.service #reload service to pick up changes
 
 
 # --------------------------
 
+# Add a cron job to the system-wide cron table. This cron job should run as a user called Mary, on the 15th day of every month, at 4 AM*. 
+# The command that the cron job should execute is: find /home/mary/ -type d -empty -delete.
 
+sudo crontab -e
+
+0 4 15 * * su - mary -c 'find /home/mary/ -type d -empty -delete'
+
+
+# --------------------------
+
+# Make some changes to the network configuration settings of the interface called enp0s10 using netplan.
+#   1. First, make a persistent change to the correct configuration file. There are two routes defined for our network interface. 
+#      Remove the route that sends network packets to 192.168.1.0/24 through the server at 10.198.0.2. Make sure that your changes are applied.
+#   2. Next, add a temporary IP address to our interface. Assign it the following IP: 10.5.0.9/24. No configuration files should be edited for this second task.
+
+sudo vim /etc/netplan/extrainterface.yaml
+
+network:
+  version: 2
+  ethernets:
+    enp0s10:
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - 10.198.0.5/24
+      routes:
+        - to: 192.168.0.0/24
+          via: 10.198.0.1
+
+sudo netplan apply   
+
+ip route
+
+sudo ip addr add 10.5.0.9/24 dev enp0s10
 
 
 # --------------------------
 
+# Change the following kernel parameters:
+# 1. Set vm.swappiness to 30. Make this a non-persistent change that will be lost at the next reboot.
+# 2. Set vm.dirty_ratio to 15. Make this a persistent change so that it survives across reboots.
 
+sudo sysctl vm.swappiness=30 #non-persistent
 
+sudo vim /etc/sysctl.conf #persistent
+
+vm.dirty_ratio = 15
 
 
 # --------------------------
 
+# Perform the following tasks:
+# 1. Add a group called developers.
+# 2. Add a user called jane. When creating the account, go with the system defaults. That is, the user's home directory should be set to /home/jane, and the default shell should be /bin/bash. You can pick any password you want for this user.
+# 3. After the user jane was created, perform the following changes. Set her primary/login group to developers. And set her secondary groups to jane and sudo.
 
+sudo groupadd developers
 
+sudo adduser jane
+
+sudo usermod -g developers jane
+
+sudo usermod -aG jane,sudo jane
 
 
 # --------------------------
+
+# Edit the configuration of the SSH daemon. Disable password logins globally (for all users). But make an exception for a single user. 
+# The user called "john" should be allowed to log in with a password.
+
+# Don't apply changes now.
+# Note: There's also a setting related to "Keyboard Interactive Authentication" that can in some cases affect password authentication settings. 
+# But you can ignore that setting for the purposes of this task.
+
+sudo vim /etc/ssh/sshd_config
+
+PasswordAuthentication no
+
+# eof
+Match User john
+    PasswordAuthentication yes
+
+
+# --------------------------
+
+# A large file in the /usr directory is no longer required. Find the file larger than 1 GB and delete it.
+
+Solutiion
+
+
+# --------------------------
+
+# We've provided two storage devices that can be accessed at /dev/vdb and /dev/vdc. 
+# Add these as physical volumes to LVM, then set up a volume group that includes both devices. 
+# Call this volume group VG1 (uppercase letters). On this volume group, add a logical volume of exactly 6 GB. Call this logical volume LV1 (uppercase letters).
+
+sudo pvcreate /dev/vdb /dev/vdc
+
+sudo vgcreate VG1 /dev/vdb /dev/vdc
+
+sudo lvcreate -L 6G -n LV1 VG1
+
+
+# --------------------------
+
+# Set up iptables rules that will redirect all incoming network connections from "10.11.12.0/24" to "10.9.9.1". 
+# Remember the matching masquerade rule (so traffic can be returned to 10.11.12.0/24).
+
+sudo iptables -t nat -A PREROUTING -s 10.11.12.0/24 -p tcp -j DNAT --to-destination 10.9.9.1
+
+sudo iptables -t nat -A POSTROUTING -s 10.11.12.0/24 -j MASQUERADE
+
+
+# --------------------------
+
+# Use the kode_web directory to build a Docker image. Fix any errors if necessary. Call your image kodekloud/nginx_kodekloud:1.0. 
+# Run a Docker container based on this image, call the container kodekloud_webserv and redirect any connections incoming to port 81 on the host to port 80 of the container.
+
+# Perform this task on node01. You can access node01 ssh node01 and password caleston123
+
+docker build --tag kodekloud/nginx_kodekloud:1.0 /home/bob/kode_web
+
+# error we see:
+   2 | >>> COPi index.html /usr/share/nginx/html/index.html
+ERROR: failed to solve: dockerfile parse error on line 2: unknown instruction: COPi (did you mean copy?)
+
+# correct typo in Dockerfile and build
+docker build --tag kodekloud/nginx_kodekloud:1.0 /home/bob/kode_web
+
+docker images
+
+# spin up the container
+docker run --detach --publish 81:80 --name kodekloud_webserv kodekloud/nginx_kodekloud:1.0
+
+
+# --------------------------
+
+# You will find a subdirectory called kode. This is a local Git repository. And it's already configured with a remote repository aliased as origin. Perform the following tasks:
+#   1. Pull in the latest commits from this origin remote repository, from the master branch.
+#   2. You should now see a file called file1. Edit this file and add another line to it. Write this text on the second line: "line2". Save the file.
+#   3. Stage and commit your latest changes to file1. Add the following message to this commit: "Added line2 to our project".
+#   4. Push your local Git repository to the remote repository aliased as "origin", into the "master" branch.
+
+cd ~/kode
+git pull origin master
+
+vim file1
+# Add "line2" on the second line, save, and exit.
+
+git add file1
+git commit -m "Added line2 to our project"
+
+git push origin master
+
+
+# --------------------------
+
+# Format /dev/vdd with the ext4 filesystem. Then set up the system to automatically mount /dev/vdd into the /home/bob/backups directory every time it boots up.
+
+sudo mkfs.ext4 /dev/vdd
+
+sudo vim /etc/fstab
+
+# /etc/fstab
+/dev/vdd /home/bob/backups ext4 defaults 0 2
+
+sudo mount -a
+
+
+# --------------------------
+
+# A process (mockexam.sh) overuses our system resources in node01. Find the process that is that us using more resources.
+#   1. Kill the process
+#   2. Delete the script which is the source for that process.
+# Note: Perform this task in node01. Access node by ssh node01 Passoword: caleston123
+
+Solution
+
+
+# --------------------------
+
+# Find all files in the /opt/files/ directory that are larger than 500 megabytes and delete them.
+
+find /opt/files -size +500M
+
+
+# --------------------------
+
+# A process is overusing CPU resources. Find the most CPU-intensive process and close it.
+
+Solution
+
+
+# --------------------------
+
+# This system currently has no way of synchronizing its time with NTP servers. Install the timesyncd utility belonging to the systemd suite of software. Then configure it to synchronize with the following NTP pools:
+# 0.asia.pool.ntp.org
+# 1.asia.pool.ntp.org
+# 2.asia.pool.ntp.org
+# 3.asia.pool.ntp.org
+# Make sure these settings are applied.
+
+sudo apt install systemd-timesyncd
+
+# /etc/systemd/timesyncd.conf
+sudo vim /etc/systemd/timesyncd.conf
+
+NTP=0.asia.pool.ntp.org 1.asia.pool.ntp.org 2.asia.pool.ntp.org 3.asia.pool.ntp.org
+
+systemctl restart systemd-timesyncd
+
+
+# --------------------------
+
+# We have a Network Block Device (NBD) server running at the IP address 127.0.0.1. Perform the following tasks:
+#   1. A network block device is already attached to this system and mounted to a certain directory. Unmount the network block device from that directory. Then disconnect the network block device from the system.
+#   2. List the exports available on the NBD server at 127.0.0.1. Attach the second export to this system, and then mount it to the /mnt directory.
+# Note: Perform this task in node01. Access node by ssh node01 Passoword: caleston123
+
+lsblk
+# NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINTS
+# nbd0    43:0    0   2G  0 disk /share
+
+sudo umount /share
+
+sudo nbd-client -d /dev/nbd0
+
+sudo nbd-client -l 127.0.0.1
+
+sudo nbd-client 127.0.0.1 -N disk2
+
+sudo mount /dev/nbd0 /mnt
+
+
+# --------------------------
+
+# Nginx is installed and a configuration file is available to make it work as a load balancer. However, some steps are still required:
+# 1. Edit the provided configuration file and add another server for load balancing.
+# 2. The server's IP is 10.9.0.3. Assign it a weight equal to 3 so that requests are sent to this server more often.
+# 3. Take the rest of the steps necessary to make this new configuration active for Nginx.
+
+sudo vim /etc/nginx/sites-available/loadbalancer.conf
+# server 10.9.0.3 weight=3;
+
+sudo ln -s /etc/nginx/sites-available/loadbalancer.conf /etc/nginx/sites-enabled/loadbalancer.conf
+
+sudo systemctl reload nginx
+
+
+# --------------------------
+
+# A user called jane exists on this system. Make the following changes:
+#   1. Change the default shell of this user to /bin/bash.
+#   2. Add the user to an additional secondary group called sudo. Make sure to preserve the secondary groups jane is already part of.
+
+sudo chsh -s /bin/bash jane
+
+sudo usermod -aG sudo jane
+
+
+# --------------------------
+
+# Add a cron job to the crontable of the user called john (not the system-wide crontable).
+#   1. This cron job should be executed every Monday and Saturday at 3 AM (03:00).
+#   2. The command executed by this cron job should be:
+#     tar acf /home/john/www-snapshot.tgz /var/www
+# Important note: The crontable entry should be specified on a single line (not one line for Monday and a separate one for Friday).
+
+sudo crontab -e -u john
+0 3 * * 1,6 tar acf /home/john/www-snapshot.tgz /var/www
+
+
+# --------------------------
+
+# We've created a configuration file that defines a network bond between two interfaces. But we haven't activated it yet.
+#   1. Change that configuration file to make eth3 the primary interface of this network bond.
+#   2. Activate the new network settings defined in that file, so that the network bond gets created accordingly.
+
+sudo vim /etc/netplan/99-bond.yaml
+primary: eth3
+
+sudo netplan apply
+
+
+# --------------------------
+
+# Perform the following tasks:
+#   1. Set up a port redirection rule. All connections coming from the 10.9.9.0/24 IP range, on port 8080 should be redirected to 10.100.0.8 on port 80.
+#   2. Make sure to also set up masquerading so that traffic can also be returned to the sender (10.9.9.0/24).
+
+sudo iptables -t nat -A PREROUTING -s 10.9.9.0/24 -p tcp --dport 8080 -j DNAT --to-destination 10.100.0.8:80
+
+sudo iptables -t nat -A POSTROUTING -s 10.9.9.0/24 -j MASQUERADE
+
+
+# --------------------------
+
+# The systemd-timesyncd package is already installed. However, automatically setting up the correct time by using NTP servers is currently disabled.
+#   1. Enable NTP time synchronization on this machine.
+#   2. Then set the timezone to Asia, Singapore.
+#   3. Finally, what is the name of the fallback NTP pool currently configured for this system? Create the file /opt/pool.txt and save the name of that pool there, on a single line.
+
+sudo timedatectl set-ntp true
+
+sudo timedatectl set-timezone Asia/Singapore
+
+sudo timedatectl show-timesync | grep FallbackNTP | sudo tee /opt/pool.txt > /dev/null
+
+
+# --------------------------
+
+# In your home directory, you will find a subdirectory called project1. Inside, a local Git repository was already set up, initialised, and associated with a remote repository aliased as "origin".
+#   1. Stage and commit all files in the project1 repository.
+#   2. Use the commit message: Initial commit of project1.
+#   3. Push your changes to the master branch of the remote repository.
+
+cd ~/project1
+git add *
+git commit -m "Initial commit of project1"
+
+git push origin master
+
+
+# --------------------------
+
+# In your /home/bob/certs directory, you will find six files. Three private keys and three TLS certificates that are associated with those keys. However, two certificates have incorrect data.
+#   1. Look for the certificate generated for kodekloud.com.
+#     Keep that certificate and its associated key.
+#   2. Delete the two certificates that aren't associated with kodekloud.com. Also, delete their corresponding keys.
+#   3. At the end of this task, you should be left with two files: the certificate for "kodekloud.com" and its associated key.
+
+cd /home/bob/certs
+
+openssl x509 -in third.crt -text -noout | grep kodekloud.com
+
+sudo rm first.key first.crt second.key second.crt
+
+
+# --------------------------
+
+# The Logical Volume Manager was used to create the following structure:
+#   - A volume group called VG1.
+#   - A logical volume called LV1.
+#   - On this logical volume we have an ext4 filesystem of approximately 2GB.
+#   1. Expand the logical volume called LV1 to use 100% of the free space available on the VG1 volume group.
+
+sudo lvresize --extents 100%VG VG1/LV1
+
+
+# --------------------------
+
+# We have a Docker container on this system(node01) that is currently stopped. Find that container and delete it.
+# Note: Perform this task on node01. Access node by ssh node01 password caleston123
+
+Solution
+
+
+# --------------------------
+
+# Create an ext4 filesystem on /dev/vdc. Then configure the system to automatically mount this new filesystem in the /home/bob/share directory every time it boots up.
+# Note: Exit from node01 if you are in node01
+
+sudo mkfs.ext4 /dev/vdc
+
+sudo vim /etc/fstab
+/dev/vdc /home/bob/share ext4 defaults 0 2
+
+sudo mount -a
+
+
+# --------------------------
+
+# Configure the system to automatically adjust the value of a certain kernel parameter every time it boots up.
+# net.ipv6.conf.all.forwarding should be set to 1 at each boot.
+
+sudo vim /etc/sysctl.conf
+
+net.ipv6.conf.all.forwarding = 1
+
+sudo sysctl --system
+
+
+# --------------------------
+
+# A process mockexam.sh is running under the user account called bob. Find and terminate that process.
+
+Solution
+
+
+# --------------------------
+
+# The /var/www/ directory and all of its content is currently labeled like this under SELinux:
+# unconfined_u:object_r:var_t:s0
+
+# Change the label on the /var/www/ directory itself, its subdirectories, and all the files it contains. 
+# More specifically, change the SELinux type on these objects to httpd_sys_content_t. At the end of this task, everything in /var/www/ (and the directory itself) should end up with the following label:
+# unconfined_u:object_r:httpd_sys_content_t:s0
+
+Solution 
+
+
+# --------------------------
+
+# In the /opt/archive/ directory there is a single file with the permission to be executed by its user. Find the user's executable file and delete it.
+
+Solution
+
+
+# --------------------------
+
+# Find the filesystem that is almost full (100% of available space is used, or very close to 100%). 
+# Free up some space by deleting the largest file from that filesystem.
+
+Solution 
+
+
+# --------------------------
+
+# Swap is currently used on this system. Disable (turn off) only swap with name additionalspace .
+
+Solution
+
