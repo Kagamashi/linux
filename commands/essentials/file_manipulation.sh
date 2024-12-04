@@ -53,11 +53,11 @@ cmp  # compare byte by byte and return first difference line number
 
 # -d delimeter
 # -f fields we want to extract
-cut -d ':' -f 1 /etc/passwd             # Extract the first field from each line of /etc/passwd
-cut -c 1-5 filename.txt                 # Cut characters from 1 to 5 in each line of a file
+cut -d ':' -f 1 /etc/passwd             # extract the first field from each line of /etc/passwd
+cut -c 1-5 filename.txt                 # cut characters from 1 to 5 in each line of a file
 
-sort filename.txt                        # Sort the lines in a file
-sort -r filename.txt                     # Sort in reverse order
+sort filename.txt                       # sort the lines in a file
+sort -r filename.txt                    # sort in reverse order
 
 uniq filename.txt                        # Remove adjacent duplicate lines from a file
 sort filename.txt | uniq                 # Remove all duplicate lines (requires sorting first)
