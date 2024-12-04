@@ -35,8 +35,8 @@ This is a message
 that spans multiple lines.
 EOF
 
-grep -r 'The' /etc/ > output.txt 2>&1  # redirects both stdout and stderr to "output.txt"
-grep -r 'The' /etc/ 1> output.txt 2>&1 # equivalent to the above
+grep -r 'The' /etc/ > output.txt 2>&1                # redirects both stdout and stderr to "output.txt"
+grep -r 'The' /etc/ 1> output.txt 2>&1               # equivalent to the above
 grep -r 'pattern' /etc/ 1> results.txt 2> errors.txt # separate normal output and errors into different files
 
 # tee command is used to split output so that it can be both displayed on the screen and saved to a file

@@ -1,97 +1,65 @@
-#!/bin/bash
 
-# ----------------------
-# Kernel Information
-# ----------------------
+# display kernel information
+uname -r                              # show the kernel release version
+uname -a                              # show all system and kernel information
 
-# Display kernel information
-uname -r                              # Show the kernel release version
-uname -a                              # Show all system and kernel information
+# show kernel and OS information
+hostnamectl                           # display kernel version, hostname, architecture, etc.
 
-# Show kernel and OS information
-hostnamectl                           # Display kernel version, hostname, architecture, etc.
+# kernel ring buffer messages (for debugging hardware or drivers)
+dmesg | less                          # view kernel log messages
+dmesg | grep -i error                 # search for errors in kernel messages
 
-# Kernel ring buffer messages (for debugging hardware or drivers)
-dmesg | less                          # View kernel log messages
-dmesg | grep -i error                 # Search for errors in kernel messages
+# display kernel version
+cat /proc/version                     # show the running kernel version
 
-# Display kernel version
-cat /proc/version                     # Show the running kernel version
+lsmod                                 # list all currently loaded kernel modules
 
-# ----------------------
-# Kernel Modules
-# ----------------------
+sudo modprobe modulename              # load a kernel module
+sudo modprobe -r modulename           # unload a kernel module
 
-# List loaded kernel modules
-lsmod                                 # List all currently loaded kernel modules
+sudo insmod /path/to/module.ko        # insert a specific kernel module (.ko file)
 
-# Load and unload kernel modules
-sudo modprobe modulename              # Load a kernel module
-sudo modprobe -r modulename           # Unload a kernel module
+sudo rmmod modulename                 # unload/remove a kernel module
 
-# Insert a kernel module
-sudo insmod /path/to/module.ko        # Insert a specific kernel module (.ko file)
+sudo depmod -a                        # update module dependency list
 
-# Remove a kernel module
-sudo rmmod modulename                 # Unload/remove a kernel module
+modinfo modulename                    # display detailed information about a kernel module
 
-# Recalculate module dependencies
-sudo depmod -a                        # Update module dependency list
+# view and configure kernel parameters
+sysctl -a                                              # display all kernel parameters
+sudo sysctl parameter=value                             # set a kernel parameter temporarily
+sudo sysctl -w parameter=value                         # write kernel parameter values
+echo "parameter=value" | sudo tee -a /etc/sysctl.conf  # make parameter changes permanent
 
-# Show module information
-modinfo modulename                    # Display detailed information about a kernel module
+# rebuild initramfs (initial RAM disk)
+sudo mkinitramfs -o /boot/initrd.img-$(uname -r) $(uname -r)  # rebuild initramfs for current kernel
 
-# ----------------------
-# Kernel Configuration and Management
-# ----------------------
+# update GRUB to include new kernels
+sudo update-grub                      # rebuild GRUB configuration after kernel updates
 
-# View and configure kernel parameters
-sysctl -a                             # Display all kernel parameters
-sudo sysctl parameter=value           # Set a kernel parameter temporarily
-sudo sysctl -w parameter=value        # Write kernel parameter values
-echo "parameter=value" | sudo tee -a /etc/sysctl.conf  # Make parameter changes permanent
+# view kernel logs using systemd journal
+journalctl -k                         # display kernel log messages
+journalctl -k -b                      # show kernel logs from the current boot
 
-# Rebuild initramfs (initial RAM disk)
-sudo mkinitramfs -o /boot/initrd.img-$(uname -r) $(uname -r)  # Rebuild initramfs for current kernel
+# view kernel parameters from /proc/sys
+cat /proc/sys/kernel/hostname         # read kernel parameter (example: system hostname)
 
-# Update GRUB to include new kernels
-sudo update-grub                      # Rebuild GRUB configuration after kernel updates
-
-# ----------------------
-# Kernel Logs and Debugging
-# ----------------------
-
-# View kernel logs using systemd journal
-journalctl -k                         # Display kernel log messages
-journalctl -k -b                      # Show kernel logs from the current boot
-
-# View kernel parameters from /proc/sys
-cat /proc/sys/kernel/hostname         # Read kernel parameter (example: system hostname)
-
-# ----------------------
+# --------------------------------
 # Kernel Compilation and Upgrades
-# ----------------------
+# --------------------------------
+# open kernel configuration menu before compilation
+make menuconfig                       # open the terminal-based kernel configuration menu
 
-# Open kernel configuration menu before compilation
-make menuconfig                       # Open the terminal-based kernel configuration menu
+# compile the kernel and modules
+make                                  # compile the kernel after configuration
 
-# Compile the kernel and modules
-make                                  # Compile the kernel after configuration
-
-# Install kernel modules after compilation
+# install kernel modules after compilation
 make modules_install
 
-# Install the compiled kernel
+# install the compiled kernel
 make install
-
-# ----------------------
-# Kernel Upgrades and Management (Package Managers)
-# ----------------------
 
 # Ubuntu/Debian Kernel Management
 sudo apt install linux-image-<version>   # Install a new kernel version
 sudo apt autoremove --purge              # Remove old kernel versions
-
-# RHEL/CentOS Kernel Management
-sudo yum install kernel-<version>        # Install a new kernel
-sudo yum remove kernel-<version>         # Remove old kernel versions
