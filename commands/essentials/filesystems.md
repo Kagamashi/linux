@@ -45,8 +45,8 @@ Examples:
 - support large file sized (up to 16TB)
 - maximum filesystem size: 1EiB
 - backward compatibility with ext3/ext2
-*- default filesystem for many Linux distributions
-*
+*- default filesystem for many Linux distributions*
+
 # xfs
 - efficient handling of large files and high I/O workloads
 - online resizing (expanding, not shrinking)

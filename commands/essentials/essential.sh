@@ -13,7 +13,6 @@ history  # show command history
 alias    # create a shortcut to another command
 clear    # clear the terminal screen
 
-
 ssh -X # remote graphical environment
 
 man [command]
@@ -40,16 +39,11 @@ date "+%Y-%m-%d %H:%M:%S"              # display date in a custom format
 date -s "2024-01-01 12:00:00"          # set the system date and time (requires sudo)
 data +%Z                               # show current timezone
 
-# history – Show command history
-history                                 # Show the command history list
-history | grep <search_term>            # Search the command history for a specific term
-history -c                              # Clear the command history
+history                                # show the command history list
+history | grep <search_term>           # search the command history for a specific term
+history -c                             # clear the command history
 
-# alias – Create a shortcut to another command
-alias ll='ls -la'                      # Create an alias for 'ls -la'
-alias rm='rm -i'                       # Create an alias for 'rm' to prompt before deleting
+alias ll='ls -la'                      # create an alias for 'ls -la'
+alias rm='rm -i'                       # create an alias for 'rm' to prompt before deleting
 
-# clear – Clear the terminal screen
-clear                                   # Clear the terminal screen
-
-
+clear                                  # clear the terminal screen
