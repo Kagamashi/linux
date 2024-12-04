@@ -1,4 +1,3 @@
-#!/bin/bash
 
 echo                                    # Display a line of text
 date                                    # Display or set the system date and time
