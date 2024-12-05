@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Logs collected inside /var/log directory
 grep -r 'ssh' /var/log/ # To find in what files ssh logs are stored
