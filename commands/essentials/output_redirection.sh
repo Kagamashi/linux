@@ -4,10 +4,10 @@ stderr # Standard error: sends error messages (usually to the screen)
 
 < file                              # Redirect input from "file"
 
-> file                              # Create/empty a file
+> file                              # Create/overwrite a file
 1> file                             # Redirect standard output (stdout) to "file" (overwrite)
 
->> file                             # Append to a file instead of overwriting
+>> file                             # Create/append to a file instead of overwriting
 1>> file                            # Redirect stdout and append to "file"
 
 2> errors.txt                       # Redirects stderr (error messages) to "errors.txt"
