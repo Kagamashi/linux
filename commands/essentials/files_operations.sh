@@ -90,12 +90,14 @@ rm -r /path/to/directory                 # remove a directory and its contents
 rm -i file.txt                           # prompt before deleting the file
 
 # Soft Link (symbolic link) is a shortcut - it creates a new file that points to another file or directory
-# If original file is deleted the soft link breaks
-# Can link to directories and crosses filesystems
+#   * if original file is deleted the soft link breaks
+#   * can link to directories and crosses filesystems
+#   * shares the same inode as source
 ln -s file.txt symlink.txt               # create a symbolic link to file.txt
 
 # Hard Link - points directly to a data of the original file
-# If original file is deleted the hard link still works because it points to the same data
+#   * if original file is deleted the hard link still works because it points to the same data
+#   * shares the same inode as source
 ln file.txt hardlink.txt                 # create a hard link to file.txt
 
 ls                                       # list files and directories 
