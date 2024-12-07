@@ -1,4 +1,3 @@
-#!/bin/bash
 
 awk # Pattern scanning and processing language
 
