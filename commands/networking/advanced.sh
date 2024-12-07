@@ -1,9 +1,5 @@
-#!/bin/bash
 
-# ----------------------
-# Bonding and Teaming
-# ----------------------
-
+## Bonding and Teaming
 # Install necessary packages for bonding (Ubuntu/Debian)
 sudo apt install ifenslave -y
 
@@ -42,10 +38,8 @@ GATEWAY=192.168.1.1
 # Bring up the bond
 sudo ifup bond0
 
-# ----------------------
-# Bridging
-# ----------------------
 
+## Bridging
 # Install bridge utilities
 sudo apt install bridge-utils -y  # Ubuntu/Debian
 sudo yum install bridge-utils -y  # CentOS/RHEL
@@ -68,10 +62,8 @@ iface br0 inet static
 # Bring the bridge up
 sudo ifup br0
 
-# ----------------------
-# VLANs (Virtual LANs)
-# ----------------------
 
+## VLANs (Virtual LANs)
 # Install vlan package (Ubuntu/Debian)
 sudo apt install vlan -y
 

@@ -1,37 +1,29 @@
-#!/bin/bash
 
-fdisk                                   # Partition table manipulator for Linux
-parted                                  # A partition manipulation program
-lsblk                                   # List information about block devices
-blkid                                   # Locate/print block device attributes
-mkfs                                    # Build a Linux file system
-mount                                   # Mount a file system
-umount                                  # Unmount file systems
+fdisk                                   # partition table manipulator for Linux
+parted                                  # partition manipulation program
+lsblk                                   # list information about block devices
+blkid                                   # locate/print block device attributes
+mkfs                                    # build a Linux file system
+mount                                   # mount a file system
+umount                                  # unmount file systems
 
-# fdisk – Partition table manipulator for Linux
-fdisk -l                                # List all partitions on all disks
-fdisk /dev/sda                          # Open fdisk for a specific disk (e.g., /dev/sda)
+fdisk -l                                # list all partitions on all disks
+fdisk /dev/sda                          # open fdisk for a specific disk (e.g., /dev/sda)
 
-# parted – A partition manipulation program
-parted /dev/sda                         # Open parted for a specific disk (e.g., /dev/sda)
-parted /dev/sda print                   # Print partition table of the specified disk
+parted /dev/sda                         # open parted for a specific disk (e.g., /dev/sda)
+parted /dev/sda print                   # print partition table of the specified disk
 
-# lsblk – List information about block devices
-lsblk                                   # List all block devices
-lsblk -f                                # List block devices with filesystem information
+lsblk                                   # list all block devices
+lsblk -f                                # list block devices with filesystem information
 
-# blkid – Locate/print block device attributes
-blkid                                   # Show attributes of all block devices
-blkid /dev/sda1                         # Show attributes of a specific block device
+blkid                                   # show attributes of all block devices
+blkid /dev/sda1                         # show attributes of a specific block device
 
-# mkfs – Build a Linux file system
-mkfs.ext4 /dev/sda1                     # Create an ext4 filesystem on /dev/sda1
-mkfs.vfat /dev/sdb1                     # Create a FAT32 filesystem on /dev/sdb1
+mkfs.ext4 /dev/sda1                     # create an ext4 filesystem on /dev/sda1
+mkfs.vfat /dev/sdb1                     # create a FAT32 filesystem on /dev/sdb1
 
-# mount – Mount a file system
-mount /dev/sda1 /mnt                    # Mount the filesystem on /dev/sda1 to /mnt
-mount -o loop image.iso /mnt            # Mount an ISO file
+mount /dev/sda1 /mnt                    # mount the filesystem on /dev/sda1 to /mnt
+mount -o loop image.iso /mnt            # mount an ISO file
 
-# umount – Unmount file systems
-umount /mnt                             # Unmount the filesystem mounted at /mnt
-umount -a                               # Unmount all mounted filesystems
+umount /mnt                             # unmount the filesystem mounted at /mnt
+umount -a                               # unmount all mounted filesystems

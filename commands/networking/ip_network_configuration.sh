@@ -1,40 +1,32 @@
-#!/bin/bash
 
-ip                                       # Show/manipulate routing, devices, policy routing, and tunnels
-ifconfig                                 # Configure a network interface (deprecated by ip)
-ping                                     # Send ICMP ECHO_REQUEST to network hosts
-traceroute                               # Print the route packets take to the network host
-netstat                                  # Network statistics
-ss                                       # Utility to investigate sockets
-ethtool                                  # Query or control network driver and hardware settings
+ip                                       # show/manipulate routing, devices, policy routing, and tunnels
+ifconfig                                 # configure a network interface (deprecated by ip)
+ping                                     # send ICMP ECHO_REQUEST to network hosts
+traceroute                               # print the route packets take to the network host
+netstat                                  # network statistics
+ss                                       # utility to investigate sockets
+ethtool                                  # query or control network driver and hardware settings
 
-# ip – Show/manipulate routing, devices, policy routing, and tunnels
-ip addr                                  # Show all network interfaces and their addresses
-ip link                                  # Show all network interfaces
-ip route                                 # Show the routing table
-ip addr add 192.168.1.10/24 dev eth0     # Add an IP address to an interface
-ip link set eth0 up                      # Bring up the network interface
+ip addr                                  # show all network interfaces and their addresses
+ip link                                  # show all network interfaces
+ip route                                 # show the routing table
+ip addr add 192.168.1.10/24 dev eth0     # add an IP address to an interface
+ip link set eth0 up                      # bring up the network interface
 
-# ifconfig – Configure a network interface (deprecated)
-ifconfig                                 # Show all network interfaces and their configurations
-ifconfig eth0 192.168.1.10 netmask 255.255.255.0 # Assign an IP address to eth0
+ifconfig                                          # show all network interfaces and their configurations
+ifconfig eth0 192.168.1.10 netmask 255.255.255.0  # assign an IP address to eth0
 
-# ping – Send ICMP ECHO_REQUEST to network hosts
-ping example.com                         # Send ICMP echo requests to example.com
-ping -c 4 192.168.1.1                    # Send 4 pings to a specific IP address
+ping example.com                         # send ICMP echo requests to example.com
+ping -c 4 192.168.1.1                    # send 4 pings to a specific IP address
 
-# traceroute – Print the route packets take to the network host
-traceroute example.com                   # Trace the route to example.com
-traceroute -n 192.168.1.1                 # Trace the route without resolving hostnames
+traceroute example.com                   # trace the route to example.com
+traceroute -n 192.168.1.1                # trace the route without resolving hostnames
 
-# netstat – Network statistics
-netstat -tuln                            # Show listening ports and associated addresses
-netstat -i                               # Show network interface statistics
+netstat -tuln                            # show listening ports and associated addresses
+netstat -i                               # show network interface statistics
 
-# ss – Utility to investigate sockets
-ss -tuln                                 # Show TCP and UDP listening sockets
-ss -s                                    # Show summary statistics
+ss -tuln                                 # show TCP and UDP listening sockets
+ss -s                                    # show summary statistics
 
-# ethtool – Query or control network driver and hardware settings
-ethtool eth0                             # Display information about the eth0 interface
-ethtool -s eth0 speed 1000 duplex full   # Set the speed and duplex mode for eth0
+ethtool eth0                             # display information about the eth0 interface
+ethtool -s eth0 speed 1000 duplex full   # set the speed and duplex mode for eth0

@@ -1,48 +1,29 @@
-#!/bin/bash
 
-# ----------------------
-# Enabling and Configuring Disk Quotas
-# ----------------------
-
-# Install quota package (if not already installed)
+### Enabling and Configuring Disk Quotas
+# install quota package (if not already installed)
 sudo apt install quota -y                # Ubuntu/Debian
 sudo yum install quota -y                # CentOS/RHEL
 
-# Enable quotas on a specific filesystem via /etc/fstab
-echo "/dev/sda1 / ext4 defaults,usrquota,grpquota 0 1" | sudo tee -a /etc/fstab  # Enable user and group quotas for ext4 filesystem.
+# enable quotas on a specific filesystem via /etc/fstab
+echo "/dev/sda1 / ext4 defaults,usrquota,grpquota 0 1" | sudo tee -a /etc/fstab  # enable user and group quotas for ext4 filesystem
 
-# Remount the filesystem to apply changes
-sudo mount -o remount /                  # Remount the root filesystem (or any other with quotas enabled).
+# remount the filesystem to apply changes
+sudo mount -o remount /                  # remount the root filesystem (or any other with quotas enabled)
 
-# Initialize the quota files
-sudo quotacheck -cug /                   # Create and check quota files for user and group quotas on the root filesystem.
+# initialize the quota files
+sudo quotacheck -cug /                   # create and check quota files for user and group quotas on the root filesystem
 
-# Turn quotas on
-sudo quotaon /                           # Enable quotas on the root filesystem (or any other specified filesystem).
+# turn quotas on
+sudo quotaon /                           # enable quotas on the root filesystem (or any other specified filesystem)
 
-# ----------------------
-# Set and Manage Quotas for Users and Groups
-# ----------------------
 
-# Set quotas for a specific user (using edquota)
-sudo edquota username                    # Edit quota for 'username' (opens a text editor).
+### Set and Manage Quotas for Users and Groups
+sudo edquota username                    # edit quota for user (opens a text editor)
+sudo edquota -g groupname                # edit quota for group (opens a text editor)
 
-# Set quotas for a specific group (using edquota)
-sudo edquota -g groupname                # Edit quota for 'groupname' (opens a text editor).
 
-# ----------------------
-# Viewing and Managing Quotas
-# ----------------------
-
-# Check user quota usage
-quota -u username                        # Display quota usage for 'username'.
-
-# Check group quota usage
-quota -g groupname                       # Display quota usage for 'groupname'.
-
-# View quota report for all users
-sudo repquota /                          # Report quota usage for users and groups on the root filesystem.
-
-# Turn quotas off
-sudo quotaoff /                          # Disable quotas on the root filesystem.
-
+### Viewing and Managing Quotas
+quota -u username                        # display quota usage for 'username'
+quota -g groupname                       # display quota usage for 'groupname'
+sudo repquota /                          # report quota usage for users and groups on the root filesystem
+sudo quotaoff /                          # disable quotas on the root filesystem

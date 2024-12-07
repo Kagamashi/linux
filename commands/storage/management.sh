@@ -1,71 +1,40 @@
-#!/bin/bash
 
-# ----------------------
-# Partitioning and Filesystems
-# ----------------------
+### Partitioning and filesystems
+# view existing partitions
+sudo fdisk -l                 # Display disk partition table (MBR and GPT)
+sudo parted -l                # Display partition layout using parted
 
-# View existing partitions
-sudo fdisk -l                 # Display disk partition table (MBR and GPT).
-sudo parted -l                # Display partition layout using parted.
+# create and modify partitions with fdisk (MBR)
+sudo fdisk /dev/sda           # open fdisk for /dev/sda
+# inside fdisk: 'n' to create new partition, 'd' to delete, 'w' to write changes
 
-# Create and modify partitions with fdisk (MBR)
-sudo fdisk /dev/sda           # Open fdisk for /dev/sda.
-# Inside fdisk: 'n' to create new partition, 'd' to delete, 'w' to write changes.
+# create and modify partitions with parted (GPT)
+sudo parted /dev/sda          # open parted for /dev/sda
+# inside parted: mklabel gpt, mkpart primary ext4 1MiB 100%, print, quit
 
-# Create and modify partitions with parted (GPT)
-sudo parted /dev/sda          # Open parted for /dev/sda.
-# Inside parted: mklabel gpt, mkpart primary ext4 1MiB 100%, print, quit.
+sudo mkfs.ext4 /dev/sda1      # format the partition /dev/sda1 with ext4 filesystem
+sudo mkfs.xfs /dev/sda1       # format the partition /dev/sda1 with XfS filesystem
+sudo mkfs.btrfs /dev/sda1     # format the partition /dev/sda1 with Btrfs filesystem
 
-# Create filesystem (ext4)
-sudo mkfs.ext4 /dev/sda1      # Format the partition /dev/sda1 with ext4 filesystem.
 
-# Create filesystem (XFS)
-sudo mkfs.xfs /dev/sda1       # Format the partition /dev/sda1 with XFS filesystem.
+### Mounting filesystems and fstab
+sudo mount /dev/sda1 /mnt      # mount the partition /dev/sda1 to /mnt
+sudo umount /mnt               # unmount the /mnt directory
+mount | column -t              # display currently mounted filesystems
 
-# Create filesystem (Btrfs)
-sudo mkfs.btrfs /dev/sda1     # Format the partition /dev/sda1 with Btrfs filesystem.
+# add entry to /etc/fstab for automatic mounting
+echo "/dev/sda1 /mnt ext4 defaults 0 2" | sudo tee -a /etc/fstab  # auto-mount ext4 filesystem
 
-# ----------------------
-# Mounting Filesystems and fstab
-# ----------------------
 
-# Manually mount a filesystem
-sudo mount /dev/sda1 /mnt      # Mount the partition /dev/sda1 to /mnt.
+### Filesystem Labels and UUiDs
+sudo blkid                             # display block device attributes (UUiD, type, label)
+sudo lsblk -f                          # display filesystems and UUiDs
+sudo e2label /dev/sda1 new_label       # set label "new_label" for ext4 partition
+sudo xfs_admin -L new_label /dev/sda1  # set label for XfS partition
 
-# Unmount a filesystem
-sudo umount /mnt               # Unmount the /mnt directory.
 
-# Display mounted filesystems
-mount | column -t              # Display currently mounted filesystems.
-
-# Add entry to /etc/fstab for automatic mounting
-echo "/dev/sda1 /mnt ext4 defaults 0 2" | sudo tee -a /etc/fstab  # Auto-mount ext4 filesystem.
-
-# ----------------------
-# Filesystem Labels and UUIDs
-# ----------------------
-
-# Display filesystem UUIDs and labels
-sudo blkid                     # Display block device attributes (UUID, type, label).
-sudo lsblk -f                  # Display filesystems and UUIDs.
-
-# Label a filesystem
-sudo e2label /dev/sda1 new_label  # Set label "new_label" for ext4 partition.
-sudo xfs_admin -L new_label /dev/sda1  # Set label for XFS partition.
-
-# ----------------------
-# Filesystem Management
-# ----------------------
-
-# Check filesystem integrity (ext4)
-sudo fsck /dev/sda1            # Check and repair ext4 filesystem.
-
-# Check filesystem integrity (XFS)
-sudo xfs_repair /dev/sda1      # Check and repair XFS filesystem.
-
-# Resize ext4 filesystem
-sudo resize2fs /dev/sda1       # Resize ext4 filesystem after resizing the partition.
-
-# Resize XFS filesystem
-sudo xfs_growfs /dev/sda1      # Resize XFS filesystem while it is mounted.
-
+### Filesystem Management
+sudo fsck /dev/sda1            # check and repair ext4 filesystem
+sudo xfs_repair /dev/sda1      # check and repair XfS filesystem
+sudo resize2fs /dev/sda1       # Resize ext4 filesystem after resizing the partition
+sudo xfs_growfs /dev/sda1      # Resize XfS filesystem while it is mounted
