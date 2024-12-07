@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # SERVICE in Linux is a program or daemon (background process) that runs in the background 
 # to perform essential tasks like serving web pages, handling logins, etc.
