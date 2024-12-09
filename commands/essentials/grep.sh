@@ -1,17 +1,25 @@
 
+# globbing
+ls -l a*      # * # every character
+ls -l a?      # ? # every single character
+ls -l a[ab]   # [ab] # list of characters
+ls -l a[a-c]  # [a-c]
+ls -l a[a-c]* # wildcards can be combined
+
 # REGEX : regular expressions
-^	  # line begins with
-$	  # line ends with
-.	  # match any ONE character
-\	  # escaping for special characters
-*	  # match the previous element 0 or more times
-+	  # match the previous element 1 or more time
-{}	# previous element can exist "this many" times
-?	  # make the previous element optional
-|	  # match one thing or the other
-[]	# ranges or sets [a-z][0-9][abz954]
-()	# subexpressions
-[^]	# negated ranges or sets
+^     # line begins with
+$	    # line ends with 
+.	    # match any ONE character (except newline)
+\	    # escaping for special characters
+*	    # match the previous element 0 or more times
++	    # match the previous element 1 or more time
+{}	  # previous element can exist "this many" times
+?	    # make the previous element optional
+|	    # match one thing or the other
+[]	  # ranges or sets [a-z][0-9][abz954]
+()	  # subexpressions 
+(...) # group of characters (abc){2}
+[^]	  # negated ranges or sets
 
 
 grep    # Search for patterns in files
