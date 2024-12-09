@@ -1,25 +1,26 @@
 
-ssh      # log into remote text environment
-w        # shows who is logged in/what they are doing
-man      # displays manual or help page for a command
---help   # displays brief summary of the command
-apropos  # searches manual pages for commands related to a keyword
-whatis   # provides brief description of a command (one-line)
-which    # shows full path of executable for a command
-type     # tells how command will be interpreted by the shell (as alias, function, execuable..)
+ssh         # log into remote text environment
+w/who       # shows who is logged in/what they are doing
+man         # displays manual or help page for a command
+apropos     # searches manual pages for commands related to a keyword
+whatis      # provides brief description of a command (one-line)
+which       # shows full path of executable for a command
+type        # tells how command will be interpreted by the shell (as alias, function, execuable..)
 echo   
-date     # display or set the system date and time
-history  # show command history
-alias    # create a shortcut to another command
-clear    # clear the terminal screen
+date        # display or set the system date and time
+history     # show command history
+alias       # create a shortcut to another command
+clear       # clear the terminal screen
+hostname    # shows name of the host
+hostnamectl # change statis hostname of our Linux system
 
-ssh -X # remote graphical environment
+
+ssh -X                # remote graphical environment
+ssh -V
+ssh -v alex@localhost # show more status messages and help debug why connection is failing (v for verbose)
 
 man [command]
 man ls
-
-[command] --help
-ls --help
 
 apropos [keyword]
 apropos copy        # this lists commands whose descriptions match the keyword "copy"
