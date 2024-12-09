@@ -58,6 +58,7 @@ cut -c 1-5 filename.txt                 # cut characters from 1 to 5 in each lin
 
 sort filename.txt                       # sort the lines in a file
 sort -r filename.txt                    # sort in reverse order
+sort -k 2 filename.txt                  # order file content using second word as a reference
 
 uniq filename.txt                       # remove adjacent duplicate lines from a file
 sort filename.txt | uniq                # remove all duplicate lines (requires sorting first)
