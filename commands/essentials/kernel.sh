@@ -45,9 +45,8 @@ journalctl -k -b                      # show kernel logs from the current boot
 # view kernel parameters from /proc/sys
 cat /proc/sys/kernel/hostname         # read kernel parameter (example: system hostname)
 
-# --------------------------------
-# Kernel Compilation and Upgrades
-# --------------------------------
+
+### Kernel Compilation and Upgrades
 # open kernel configuration menu before compilation
 make menuconfig                       # open the terminal-based kernel configuration menu
 
