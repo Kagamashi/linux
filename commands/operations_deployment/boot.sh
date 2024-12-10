@@ -37,3 +37,5 @@ systemctl isolate emergency.target     # load up as few programs as possible
 # 6 - reboot - reboot.target
 systemctl get-default                     # check current run-level
 systemctl set-default multi-user.target
+
+systemctl list-units --type target --all  # shows available targets
