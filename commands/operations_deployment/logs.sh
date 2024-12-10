@@ -1,4 +1,9 @@
 
+# usually log files are stored in /var/log
+# rsyslog is a daemon that permit logging of data from different types of systems in a central repository
+#   * /etc/rsyslog.conf configuration file of rsyslog
+#   * systemctl status rsyslog check execution status of rsyslog
+
 grep -r 'ssh' /var/log/                   # to find in what files ssh logs are stored
 grep "error" /var/log/syslog              # search for the term "error" in syslog
 grep -i "warning" /var/log/syslog         # search for "warning" (case insensitive)
