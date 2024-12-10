@@ -17,6 +17,7 @@ useradd -s /bin/bash $user             # specific shell
 useradd -u 1100 $user                  # specific USER ID
 useradd --system sysacc                # create system account intended for programs (no home directory)
 useradd -d /home/otherdirectory/ $user # adds user with different home directory
+useradd -D                             # print default configuration (/etc/default/useradd)
 
 usermod -aG groupname $user            # add "$user" to an existing group
 usermod -d /home/user $user            # change the home directory of "$user"
@@ -33,6 +34,7 @@ userdel -r $user                    # delete the user and their home directory
 
 passwd $user                        # change the password for a specific user
 passwd                              # change the password for the current user
+passwd -l user                      # lock password of user
 
 chage -l $user                      # list password expiration information for a user
 chage -E 2025-12-31 $user           # set account expiration date for a user
