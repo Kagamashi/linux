@@ -6,35 +6,26 @@ greet "Alice"   # call function and pass an argument
 
 # function with multiple arguments
 sum() {
-    local num1=$1  # Local variable
-    local num2=$2  # Local variable
+    local num1=$1
+    local num2=$2
     echo "The sum of $num1 and $num2 is $((num1 + num2))"
 }
+sum 5 10    # call function with multiple arguments
 
-# Calling the sum function with two arguments
-sum 5 10
-
-# Local vs Global Variables
+# local & global variables
 global_var="I am global"
-
 my_function() {
     local local_var="I am local"
     echo "Inside the function: $local_var"
     echo "Inside the function: $global_var"
 }
 
-my_function
+# local variable is not accessible outside the function
+echo "Outside the function: $local_var"   # Will not print anything
+echo "Outside the function: $global_var"  # print the global variable
 
-# The local variable is not accessible outside the function
-echo "Outside the function: $local_var"  # Will not print anything
-echo "Outside the function: $global_var"  # Will print the global variable
-
-# Returning values from functions
+# return values
 return_value_function() {
-    local result=$(( $1 * 2 ))  # Double the input argument
-    echo $result  # Functions in Bash return values by outputting them with echo
+    local result=$(( $1 * 2 ))  # double the input argument
+    echo $result                # functions in Bash return values by outputting them with echo
 }
-
-# Capture the return value by command substitution
-result=$(return_value_function 6)
-echo "The result from the function is: $result"
