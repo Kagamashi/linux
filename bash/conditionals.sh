@@ -56,13 +56,13 @@ if [ -n "$str2" ]; then
     echo "String 2 is not empty"
 fi
 
-# File Testing
-# -f  : file exists and is a regular file
-# -d  : file exists and is a directory
-# -r  : file exists and is readable
-# -w  : file exists and is writable
-# -x  : file exists and is executable
-# -e  : file exists (regardless of type)
+# file testing:
+#   -f  : file exists and is a regular file
+#   -d  : file exists and is a directory
+#   -r  : file exists and is readable
+#   -w  : file exists and is writable
+#   -x  : file exists and is executable
+#   -e  : file exists (regardless of type)
 
 file="testfile.txt"
 if [ -f "$file" ]; then
