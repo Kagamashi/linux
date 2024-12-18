@@ -32,7 +32,8 @@ timedatectl | grep "Time zone" | awk '{print $3}' > /opt/course/1/timezone
 
 ### 2 CronJobs
 # On server data-001, user asset-manager is responsible for timed operations on existing data. Some changes and additions are necessary.
-# Currently there is one system-wide cronjob configured that runs every day at 8:30pm. Convert it from being a system-wide cronjob to one owned and executed by user asset-manager. This means that user should see it when running crontab -l.
+# Currently there is one system-wide cronjob configured that runs every day at 8:30pm. Convert it from being a system-wide cronjob to one owned and executed by user asset-manager. 
+# This means that user should see it when running crontab -l.
 # Create a new cronjob owned and executed by user asset-manager that runs bash /home/asset-manager/clean.sh every week on Monday and Thursday at 11:15am.
 
 ## Step:1
