@@ -1,4 +1,3 @@
-#!/bin/bash
 
 # Debugging with set -x and set +x
 # set -x enables debugging (prints each command before executing it)
