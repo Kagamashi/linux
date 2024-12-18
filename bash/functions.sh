@@ -1,14 +1,10 @@
-#!/bin/bash
 
-# Defining a function
 greet() {
     echo "Hello, $1!"
 }
+greet "Alice"   # call function and pass an argument
 
-# Calling the function and passing an argument
-greet "Alice"
-
-# Function with multiple arguments
+# function with multiple arguments
 sum() {
     local num1=$1  # Local variable
     local num2=$2  # Local variable
