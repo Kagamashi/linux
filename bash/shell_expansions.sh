@@ -1,6 +1,5 @@
-#!/bin/bash
 
-# Brace Expansion: {a,b}
+# brace Expansion: {a,b}
 echo "Brace Expansion Example 1:"
 echo file{A,B,C}.txt  # This creates fileA.txt, fileB.txt, fileC.txt
 
