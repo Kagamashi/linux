@@ -1,7 +1,6 @@
-#!/bin/bash
 
-# If statement, else, and elif
-# Basic syntax for conditionals:
+# if, elif, else
+
 # if [ condition ]; then
 #     commands
 # elif [ condition ]; then
@@ -19,13 +18,13 @@ else
     echo "The number is less than 10"
 fi
 
-# Comparison Operators
-# -eq  : equal to
-# -ne  : not equal to
-# -lt  : less than
-# -gt  : greater than
-# -le  : less than or equal to
-# -ge  : greater than or equal to
+# comparison operators:
+#   -eq  : equal to
+#   -ne  : not equal to
+#   -lt  : less than
+#   -gt  : greater than
+#   -le  : less than or equal to
+#   -ge  : greater than or equal to
 
 a=5
 b=10
@@ -34,11 +33,11 @@ if [ $a -lt $b ]; then
     echo "$a is less than $b"
 fi
 
-# String Comparison
-# =   : equal to
-# !=  : not equal to
-# -z  : string is null (empty)
-# -n  : string is not null
+# string comparison:
+#   =   : equal to
+#   !=  : not equal to
+#   -z  : string is null (empty)
+#   -n  : string is not null
 
 str1="hello"
 str2="world"
