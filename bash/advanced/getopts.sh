@@ -1,6 +1,5 @@
-#!/bin/bash
 
-# Function to display usage/help
+# function
 usage() {
     echo "Usage: $0 [-h] [-n name] [-a age] [-v]"
     echo "Options:"
@@ -10,12 +9,12 @@ usage() {
     echo "  -v        Enable verbose mode"
 }
 
-# Default values
+# default values
 VERBOSE=0
 NAME=""
 AGE=""
 
-# Parsing command-line options using getopts
+# parsing command-line options using getopts
 while getopts "hn:a:v" opt; do
     case $opt in
         h)
@@ -39,32 +38,29 @@ while getopts "hn:a:v" opt; do
     esac
 done
 
-# Shifting the positional parameters to remove the processed options
-shift $((OPTIND -1))
+###
 
-# Optional verbose mode
-if [ $VERBOSE -eq 1 ]; then
-    echo "Verbose mode is ON"
+usage() { echo "Usage: $0 [-s <45|90>] [-p <string>]" 1>&2; exit 1; }
+
+while getopts ":s:p:" o; do
+    case "${o}" in
+        s)
+            s=${OPTARG}
+            ((s == 45 || s == 90)) || usage
+            ;;
+        p)
+            p=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${s}" ] || [ -z "${p}" ]; then
+    usage
 fi
 
-# Display the parsed information
-if [ -n "$NAME" ]; then
-    echo "Name: $NAME"
-else
-    echo "Name not provided"
-fi
-
-if [ -n "$AGE" ]; then
-    echo "Age: $AGE"
-else
-    echo "Age not provided"
-fi
-
-# If there are any additional non-option arguments
-if [ $# -gt 0 ]; then
-    echo "Additional arguments: $@"
-fi
-
-# ./script.sh -h
-# ./script.sh -n "Alice" -a 25
-# ./script.sh -n "Alice" -a 25 extra_arg1 extra_arg2
+echo "s = ${s}"
+echo "p = ${p}"
