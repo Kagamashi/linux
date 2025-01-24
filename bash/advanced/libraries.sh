@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # ./my_library.sh
 greet() {
