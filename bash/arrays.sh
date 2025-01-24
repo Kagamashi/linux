@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # declaring an array
 fruits=("apple" "banana" "cherry" "date")
@@ -13,7 +14,6 @@ done
 
 # array length
 length=${#fruits[@]}
-echo "The array contains $length elements"
 
 # array slicing
 # ${array[@]:start:length}
