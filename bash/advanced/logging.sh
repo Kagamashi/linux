@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # log file
 LOG_FILE="script.log"
