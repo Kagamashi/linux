@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # Basic arithmetic operations using +, -, *, /, %
 num1=10
