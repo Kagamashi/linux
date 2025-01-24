@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # declaration
 my_var="Hello, World"
