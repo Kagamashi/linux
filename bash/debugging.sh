@@ -1,3 +1,4 @@
+#!/bin/bash
 
 set -x  # enables debugging (prints each command before executing it)
 set +x  # disables debugging
