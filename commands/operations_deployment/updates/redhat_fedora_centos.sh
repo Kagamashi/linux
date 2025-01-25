@@ -16,10 +16,10 @@ dnf install <package_name>               # Install a package
 dnf remove <package_name>                # Remove a package
 dnf search <search_term>                 # Search for a package
 dnf info <package_name>                  # Display information about a package
-dnf upgrade                               # Upgrade all installed packages
+dnf upgrade                              # Upgrade all installed packages
 
 rpm -ivh <package_file.rpm>              # Install an RPM package
 rpm -e <package_name>                    # Remove an installed package
 rpm -q <package_name>                    # Query if a package is installed
-rpm -qa                                   # List all installed packages
+rpm -qa                                  # List all installed packages
 rpm -qpi <package_file.rpm>              # Display package information without installing
