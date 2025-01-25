@@ -19,9 +19,9 @@ fi
 trap    # command for catching signals
 # trap 'commands' SIGNAL
 # common signals:
-#   - SIGINT (2): Interrupt (Ctrl+C)
+#   - SIGINT (2):   Interrupt (Ctrl+C)
 #   - SIGTERM (15): Termination
-#   - EXIT: Triggered when the script exits
+#   - EXIT:         Triggered when the script exits
 
 trap 'echo "Caught SIGINT (Ctrl+C). Exiting..."; exit' SIGINT
 trap 'echo "Script terminated"; exit' SIGTERM
