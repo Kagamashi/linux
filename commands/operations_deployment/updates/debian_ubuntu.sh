@@ -17,7 +17,7 @@ apt-get remove <package_name>            # Remove a package
 apt-get autoremove                       # Remove unnecessary packages
 apt-get -f install                       # Fix broken dependencies
 
-dpkg -i <package_file.deb>              # Install a .deb package file
+dpkg -i <package_file.deb>               # Install a .deb package file
 dpkg -r <package_name>                   # Remove a package
 dpkg -l                                  # List all installed packages
 dpkg -s <package_name>                   # Show the status of a package
