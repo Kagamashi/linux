@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# ./my_library.sh
+./my_library.sh
+# This script defines a library of reusable functions. These functions can be sourced and used in other scripts.
+
 greet() {
     echo "Hello, $1!"
 }
@@ -17,9 +19,11 @@ display_date() {
 
 ###
 
-# ./main.sh
-# use library in another script .sh file (MAIN script)
-source ./my_library.sh  # source library file to use its functions
+./main.sh
+# This script demonstrates how to use the functions defined in another script (my_library.sh)
+# by sourcing the library file and calling its functions.
+
+source ./my_library.sh  # Import the functions from my_library.sh so they can be used here.
 greet "Alice"
 sum 5 10
 display_date
