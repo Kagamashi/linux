@@ -22,7 +22,7 @@ my_function() {
 }
 
 # local variable is not accessible outside the function
-echo "Outside the function: $local_var"   # Will not print anything
+echo "Outside the function: $local_var"   # will not print anything
 echo "Outside the function: $global_var"  # print the global variable
 
 # return values
