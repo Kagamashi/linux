@@ -22,3 +22,6 @@ echo "Sliced array (from index 1, length 2): ${sliced_fruits[@]}"
 
 remaining_fruits=("${fruits[@]:2}")     # starting from the second element and getting the remaining ones
 echo "Remaining fruits from index 2: ${remaining_fruits[@]}"
+
+# add element to array
+my_array[3]="date"
