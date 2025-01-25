@@ -39,3 +39,19 @@ systemctl get-default                     # check current run-level
 systemctl set-default multi-user.target
 
 systemctl list-units --type target --all  # shows available targets
+
+
+# GRUB (GNU GRUB) stands for GRand Unified Bootloader. 
+# It is a bootloader package used to load and transfer control to the operating system kernel. 
+# GRUB is the first program executed when a computer starts, and it is essential for initializing and starting Linux systems.
+
+vi /etc/default/grub
+
+info -f grub -n 'Simple configuration' # configuration information
+man 7 bootparam
+
+ls -larth /sys/firmware # firmware before compilation
+grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg # if EFI
+grub2-mkconfig -o /boot/grub2/grub.cfg # if not EFI
+
+reboot now # no errors during compilation
