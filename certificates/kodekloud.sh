@@ -9,7 +9,6 @@ sudo find /opt/findme/ -type f -perm /u=s -exec rm {} \;
 
 sudo find /opt/findme/ -type f -size +1k -exec cp {} /opt/ \;
 
-
 # --------------------------
 
 # Perform the following two tasks:
@@ -25,7 +24,6 @@ sudo chmod +x /opt/script.sh
 sudo vi /etc/crontab
 0 4 * * *      root     /opt/script.sh
 
-
 # --------------------------
 
 # Enforce some limits on two users:
@@ -36,7 +34,6 @@ sudo vi /etc/crontab
 
 john hard nproc 30
 jane soft fsize 1024
-
 
 # --------------------------
 
@@ -55,7 +52,6 @@ sudo usermod -aG sudo mary
 
 sudo usermod -g developers mary
 
-
 # --------------------------
 
 # Modify the following kernel runtime parameter:
@@ -67,7 +63,6 @@ sudo usermod -g developers mary
 sudo sysctl vm.swappiness=10 #current session 
 
 echo "vm.swappiness=10" | sudo tee /etc/sysctl.d/99-swappiness.conf #persistent
-
 
 # --------------------------
 
@@ -86,7 +81,6 @@ echo "vm.swappiness=10" | sudo tee /etc/sysctl.d/99-swappiness.conf #persistent
 
 sudo mount -o remount,ro /dev/vdb2 /mnt
 
-
 # --------------------------
 
 # Use the Logical Volume Manager to perform the following tasks:
@@ -103,7 +97,6 @@ sudo vgcreate volume1 /dev/vdc /dev/vdd
 # Logical Volume
 sudo lvcreate -n website_files -L 3G volume1
 
-
 # --------------------------
 
 # In your home directory you will find a subdirectory called kode. Git tools are pre-installed. Switch to the kode subdirectory and perform the following tasks:
@@ -117,7 +110,6 @@ git init
 git remote add origin https://github.com/kodekloudhub/git-for-beginners-course.git
 
 git pull origin master
-
 
 # --------------------------
 
@@ -138,7 +130,6 @@ bob@node01:~/kode_web$ docker build -t kodekloudwebserv .
 
 docker run --detach --publish 8081:80 --name webserver2 kodekloudwebserv
 
-
 # --------------------------
 
 # NFS server and client tools are installed on caleston-lp10 system. Instruct the NFS server to share the /home directory in read-only mode with IP addresses in the 10.0.0.0/24 CIDR range.
@@ -148,7 +139,6 @@ docker run --detach --publish 8081:80 --name webserver2 kodekloudwebserv
 
 # apply changes made in /etc/exports
 sudo exportfs -ra
-
 
 # --------------------------
 
@@ -162,7 +152,6 @@ sudo exportfs -ra
 sudo lsof -i :80 #which app is listening on port 80
 
 pgrep -a nginx #find master process of app
-
 
 # --------------------------
 
@@ -178,7 +167,6 @@ sudo ip addr add 10.5.0.1/24 dev eth1
 ip route show default
 
 cat /etc/resolv.conf #DNS config
-
 
 # --------------------------
 
@@ -213,7 +201,6 @@ sudo mount /dev/vdb2 /part2
 /dev/vdb1    /part1    ext4    defaults    0    2
 /dev/vdb2    /part2    xfs    defaults    0    2
 
-
 # --------------------------
 
 # Configure the system to use /swfile as a swap file on node01.
@@ -237,7 +224,6 @@ sudo swapon /swfile # activate swap file
 # /etc/fstab
 /swfile none swap sw 0 0
 
-
 # --------------------------
 
 # On node01two processes are overusing our storage device. One is executing a lot of I/O operations per second (small data transfers, but a very large number of such transfers). Otherwise said, the process has a high tps/IOPS. The other process is reading very large volumes of data.
@@ -257,7 +243,6 @@ To identify the process with high TPS and the partition it is using, follow the 
 
 sudo pidstat -d 1
 
-
 # --------------------------
 
 # On node01 list all filesystems to check out how much free space they have remaining. You'll find one which is almost full (should be around 98% full). 
@@ -270,7 +255,6 @@ bob@node01:~$ sudo find /data -type f -exec du -h {} + | sort -rh | head -n 1
 
 sudo rm -rf /data/683/lf
 
-
 # --------------------------
 
 # On caleston-lp10 change the configuration for the SSH daemon. Disable X11 forwarding globally. Then, make an exception for just one user called bob. 
@@ -282,7 +266,6 @@ X11Forwarding no
 
 Match User bob
     X11Forwarding yes
-
 
 # --------------------------
 
@@ -299,7 +282,6 @@ sudo systemctl restart systemd-timesyncd
 
 sudo timedatectl set-timezone Europe/Bucharest
 
-
 # --------------------------
 
 # Add a cron job for the user called john. Don't use the system-wide crontable, but rather add it to the personal crontable of the user called john.
@@ -311,14 +293,12 @@ sudo su john
 crontab -e #edit crontab
 0 4 * * 3 find /home/john/ -type d -empty -delete
 
-
 # --------------------------
 
 # There is a network interface on this system which has the IP address 10.5.5.2 associated with it. 
 # What is the name of this network interface? Create a file in /opt/interface.txt and add a single line to it containing the exact name of that interface.
 
 ip -o -4 addr list | grep '10.5.5.2' | awk '{print $2}' |sudo  tee /opt/interface.txt
-
 
 # --------------------------
 
@@ -339,7 +319,6 @@ sudo usermod -s /bin/bash jane
 
 echo 'jane:1234' | sudo chpasswd
 
-
 # --------------------------
 
 # Perform the following tasks:
@@ -356,7 +335,6 @@ sudo iptables -t nat -A POSTROUTING -s 10.5.5.0/24 -j MASQUERADE
 # make iptables rules persistent
 sudo apt install iptables-persistent
 
-
 # --------------------------
 
 # In /home/bob/certs/ directory you will find 4 files. That's because we generated two self-signed TLS certificates for you. Delete the 2 files containing the private keys. But preserve the certificate files.
@@ -366,14 +344,12 @@ openssl x509 -in file* -noout -text #To find out which files are not a certifica
 
 openssl x509 -in file* -noout -text | grep "Public-Key"
 
-
 # --------------------------
 
 # There is a file at /opt/aclfile. Currently no one has permissions to read, write, or execute this file, not even root. But instead of working with regular permissions, use ACL for this task. Add the following to the access control list:
 # The user called janet should be able to read and write to /opt/aclfile. Just read and write, no execute permission for this ACL entry.
 
 sudo setfacl -m u:janet:rw /opt/aclfile
-
 
 # --------------------------
 
@@ -384,7 +360,6 @@ sudo setfacl -m u:janet:rw /opt/aclfile
 # /etc/security/limits.conf
 janet hard nproc 100
 @mail soft fsize 8192
-
 
 # --------------------------
 
@@ -401,7 +376,6 @@ git add file1
 git commit -m "Created first required file"
 git push origin master
 
-
 # --------------------------
 
 # Perform the following tasks related to SELinux on node01:
@@ -415,7 +389,6 @@ git push origin master
 getenforce | sudo tee /opt/selinuxmode.txt
 
 sudo restorecon -v /usr/bin/less
-
 
 # --------------------------
 
@@ -431,7 +404,6 @@ sudo systemctl enable nginx
 
 ps -ef | grep nginx
 
-
 # --------------------------
 
 # A basic LVM structure exists on the node01. Make some changes to it:
@@ -444,7 +416,6 @@ ps -ef | grep nginx
 sudo vgextend volume1 /dev/vdc
 
 sudo lvresize --size 2G /dev/volume1/lv1
-
 
 # --------------------------
 
@@ -472,7 +443,6 @@ sudo apt install libncursesw5-dev autotools-dev autoconf automake build-essentia
 make
 sudo make install
 
-
 # --------------------------
 
 # Create a virtual machine with the following parameters on caleston-lp10:
@@ -494,7 +464,6 @@ virt-install \
 --noautoconsole
 
 virsh autostart mockexam2
-
 
 # --------------------------
 
@@ -522,7 +491,6 @@ network:
 
 netplan apply
 
-
 # --------------------------
 
 # Perform the following tasks on node01:
@@ -538,7 +506,6 @@ docker rm nginx_container
 docker rmi nginx
 
 docker run --detach --publish 80:80 --name=apache_container --restart=on-failure:3 httpd
-
 
 # --------------------------
 
@@ -581,7 +548,6 @@ gshadow:        files
 ## restart nslcd service
 sudo systemctl restard nslcd
 
-
 # --------------------------
 
 # Nginx is installed and a configuration file for running Nginx as a reverse proxy is already available. Perform the following tasks:
@@ -604,7 +570,6 @@ sudo ln -s /etc/nginx/sites-available/proxy.conf /etc/nginx/sites-enabled/proxy.
 
 sudo systemctl reload nginx.service #reload service to pick up changes
 
-
 # --------------------------
 
 # Add a cron job to the system-wide cron table. This cron job should run as a user called Mary, on the 15th day of every month, at 4 AM*. 
@@ -613,7 +578,6 @@ sudo systemctl reload nginx.service #reload service to pick up changes
 sudo crontab -e
 
 0 4 15 * * su - mary -c 'find /home/mary/ -type d -empty -delete'
-
 
 # --------------------------
 
@@ -642,7 +606,6 @@ ip route
 
 sudo ip addr add 10.5.0.9/24 dev enp0s10
 
-
 # --------------------------
 
 # Change the following kernel parameters:
@@ -654,7 +617,6 @@ sudo sysctl vm.swappiness=30 #non-persistent
 sudo vim /etc/sysctl.conf #persistent
 
 vm.dirty_ratio = 15
-
 
 # --------------------------
 
@@ -670,7 +632,6 @@ sudo adduser jane
 sudo usermod -g developers jane
 
 sudo usermod -aG jane,sudo jane
-
 
 # --------------------------
 
@@ -689,13 +650,11 @@ PasswordAuthentication no
 Match User john
     PasswordAuthentication yes
 
-
 # --------------------------
 
 # A large file in the /usr directory is no longer required. Find the file larger than 1 GB and delete it.
 
 Solutiion
-
 
 # --------------------------
 
@@ -709,7 +668,6 @@ sudo vgcreate VG1 /dev/vdb /dev/vdc
 
 sudo lvcreate -L 6G -n LV1 VG1
 
-
 # --------------------------
 
 # Set up iptables rules that will redirect all incoming network connections from "10.11.12.0/24" to "10.9.9.1". 
@@ -718,7 +676,6 @@ sudo lvcreate -L 6G -n LV1 VG1
 sudo iptables -t nat -A PREROUTING -s 10.11.12.0/24 -p tcp -j DNAT --to-destination 10.9.9.1
 
 sudo iptables -t nat -A POSTROUTING -s 10.11.12.0/24 -j MASQUERADE
-
 
 # --------------------------
 
@@ -741,7 +698,6 @@ docker images
 # spin up the container
 docker run --detach --publish 81:80 --name kodekloud_webserv kodekloud/nginx_kodekloud:1.0
 
-
 # --------------------------
 
 # You will find a subdirectory called kode. This is a local Git repository. And it's already configured with a remote repository aliased as origin. Perform the following tasks:
@@ -761,7 +717,6 @@ git commit -m "Added line2 to our project"
 
 git push origin master
 
-
 # --------------------------
 
 # Format /dev/vdd with the ext4 filesystem. Then set up the system to automatically mount /dev/vdd into the /home/bob/backups directory every time it boots up.
@@ -775,7 +730,6 @@ sudo vim /etc/fstab
 
 sudo mount -a
 
-
 # --------------------------
 
 # A process (mockexam.sh) overuses our system resources in node01. Find the process that is that us using more resources.
@@ -785,20 +739,17 @@ sudo mount -a
 
 Solution
 
-
 # --------------------------
 
 # Find all files in the /opt/files/ directory that are larger than 500 megabytes and delete them.
 
 find /opt/files -size +500M
 
-
 # --------------------------
 
 # A process is overusing CPU resources. Find the most CPU-intensive process and close it.
 
 Solution
-
 
 # --------------------------
 
@@ -817,7 +768,6 @@ sudo vim /etc/systemd/timesyncd.conf
 NTP=0.asia.pool.ntp.org 1.asia.pool.ntp.org 2.asia.pool.ntp.org 3.asia.pool.ntp.org
 
 systemctl restart systemd-timesyncd
-
 
 # --------------------------
 
@@ -840,7 +790,6 @@ sudo nbd-client 127.0.0.1 -N disk2
 
 sudo mount /dev/nbd0 /mnt
 
-
 # --------------------------
 
 # Nginx is installed and a configuration file is available to make it work as a load balancer. However, some steps are still required:
@@ -855,7 +804,6 @@ sudo ln -s /etc/nginx/sites-available/loadbalancer.conf /etc/nginx/sites-enabled
 
 sudo systemctl reload nginx
 
-
 # --------------------------
 
 # A user called jane exists on this system. Make the following changes:
@@ -865,7 +813,6 @@ sudo systemctl reload nginx
 sudo chsh -s /bin/bash jane
 
 sudo usermod -aG sudo jane
-
 
 # --------------------------
 
@@ -878,7 +825,6 @@ sudo usermod -aG sudo jane
 sudo crontab -e -u john
 0 3 * * 1,6 tar acf /home/john/www-snapshot.tgz /var/www
 
-
 # --------------------------
 
 # We've created a configuration file that defines a network bond between two interfaces. But we haven't activated it yet.
@@ -890,7 +836,6 @@ primary: eth3
 
 sudo netplan apply
 
-
 # --------------------------
 
 # Perform the following tasks:
@@ -900,7 +845,6 @@ sudo netplan apply
 sudo iptables -t nat -A PREROUTING -s 10.9.9.0/24 -p tcp --dport 8080 -j DNAT --to-destination 10.100.0.8:80
 
 sudo iptables -t nat -A POSTROUTING -s 10.9.9.0/24 -j MASQUERADE
-
 
 # --------------------------
 
@@ -915,7 +859,6 @@ sudo timedatectl set-timezone Asia/Singapore
 
 sudo timedatectl show-timesync | grep FallbackNTP | sudo tee /opt/pool.txt > /dev/null
 
-
 # --------------------------
 
 # In your home directory, you will find a subdirectory called project1. Inside, a local Git repository was already set up, initialised, and associated with a remote repository aliased as "origin".
@@ -928,7 +871,6 @@ git add *
 git commit -m "Initial commit of project1"
 
 git push origin master
-
 
 # --------------------------
 
@@ -944,7 +886,6 @@ openssl x509 -in third.crt -text -noout | grep kodekloud.com
 
 sudo rm first.key first.crt second.key second.crt
 
-
 # --------------------------
 
 # The Logical Volume Manager was used to create the following structure:
@@ -955,14 +896,12 @@ sudo rm first.key first.crt second.key second.crt
 
 sudo lvresize --extents 100%VG VG1/LV1
 
-
 # --------------------------
 
 # We have a Docker container on this system(node01) that is currently stopped. Find that container and delete it.
 # Note: Perform this task on node01. Access node by ssh node01 password caleston123
 
 Solution
-
 
 # --------------------------
 
@@ -976,7 +915,6 @@ sudo vim /etc/fstab
 
 sudo mount -a
 
-
 # --------------------------
 
 # Configure the system to automatically adjust the value of a certain kernel parameter every time it boots up.
@@ -988,13 +926,11 @@ net.ipv6.conf.all.forwarding = 1
 
 sudo sysctl --system
 
-
 # --------------------------
 
 # A process mockexam.sh is running under the user account called bob. Find and terminate that process.
 
 Solution
-
 
 # --------------------------
 
@@ -1007,13 +943,11 @@ Solution
 
 Solution 
 
-
 # --------------------------
 
 # In the /opt/archive/ directory there is a single file with the permission to be executed by its user. Find the user's executable file and delete it.
 
 Solution
-
 
 # --------------------------
 
@@ -1021,7 +955,6 @@ Solution
 # Free up some space by deleting the largest file from that filesystem.
 
 Solution 
-
 
 # --------------------------
 
