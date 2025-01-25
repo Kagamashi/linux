@@ -4,7 +4,7 @@ read    # read user input
 
 while   # reading a file line by line using 'while' read'
 
-echo "Reading file line by line:"
+# reading file line by line
 while IFS= read -r line; do
     echo "Line: $line"
 done < sample.txt
@@ -14,11 +14,11 @@ stdout - File descriptor 1 (used for output)
 stderr - File descriptor 2 (used for error messages)
 
 # redirection
->  - Redirect stdout to a file (overwrite)
->> - Redirect stdout to a file (append)
-<  - Redirect stdin from a file
-2> - Redirect stderr to a file
-2>&1 - Redirect stderr to stdout (combine output and error streams)
+>       # stdout to a file (overwrite)
+>>      # stdout to a file (append)
+<       # stdin from a file
+2>      # stderr to a file
+2>&1    # stderr to stdout (combine output and error streams)
 
 # redirecting stdout and stderr to a file
 exec 1>output.log 2>error.log
