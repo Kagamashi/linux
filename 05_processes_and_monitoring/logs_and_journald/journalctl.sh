@@ -2,11 +2,20 @@
 # modern Linux distirbutions using systemd rely on journal logs
 # managed by journalctl
 
-journalctl          # Show all logs from systemd journal.
-journalctl -xe      # Show recent logs with details.
-journalctl -f       # Follow logs in real time.
-journalctl --since "1 hour ago"   # View logs from the last hour.
-journalctl -u sshd  # Show logs for a specific service
+journalctl          # show all logs from systemd journal.
+journalctl -xe      # show recent logs with details.
+journalctl -f       # follow logs in real time.
+journalctl -u sshd  # show logs for a specific service
+
+journalctl --since "1 hour ago"         # view logs from the last hour.
+journalctl --list-boots                 # list all boots and their corresponding log identifiers
+journalctl -e                           # open journal and go to the end of the output
+journalctl -p                           # show list of priority options: alert, crit, debug, emerg, err, info, notice, warning
+journalctl -p info -g '^b'              # g is for grep
+journalctl -S 01:00 -U 02:00            # logs recorded since specified time
+journalctl -S '2024-10-10 10:10:55'     # logs recorded on specific date and time
+journalctl -b 0                         # logs from current boot
+journalctl -b 1                         # logs from previous boot
 
 journalctl --disk-usage   # check disk usage
 
