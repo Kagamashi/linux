@@ -13,6 +13,7 @@ find /path -type l               # symbolic links
 find /path -size +10M            # files larger than 10 MB
 find /path -size -500k           # smaller than 500 KB
 find /path -size 100k            # exactly 100 KB in size
+find / -type f -size +100M -exec ls -lh {} + | sort -k5 -h  # Find files larger than 100MB and sort by size
 
 find /path -perm 644             # with permissions 644
 find /path -perm /u+x            # executable by the user
