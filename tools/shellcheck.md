@@ -2,9 +2,7 @@
 https://github.com/koalaman/shellcheck
 
 ## Overview
-ShellCheck is a static analysis tool for shell scripts. It identifies syntax issues, coding errors, and provides suggestions for best practices. ShellCheck is particularly helpful for ensuring the portability and maintainability of shell scripts.
-
-### Features:
+ShellCheck is a static analysis tool for shell scripts.
 - Detects syntax errors and warnings
 - Provides recommendations for POSIX compliance
 - Highlights potential security risks in scripts
@@ -14,11 +12,6 @@ ShellCheck is a static analysis tool for shell scripts. It identifies syntax iss
 #### On Debian/Ubuntu:
 ```bash
 sudo apt-get install shellcheck
-```
-
-#### On Red Hat/CentOS:
-```bash
-sudo yum install shellcheck
 ```
 
 #### From Source:
@@ -48,12 +41,3 @@ shellcheck script.sh
 ```bash
 shellcheck -s bash -f gcc script.sh
 ```
-
-### Integration:
-- **Text Editors:** Many popular text editors (e.g., VSCode, Vim) support ShellCheck integration via extensions.
-- **CI/CD Pipelines:** ShellCheck can be added to CI/CD workflows to ensure script quality.
-
-### Resources:
-- GitHub Repository: [ShellCheck](https://github.com/koalaman/shellcheck)
-- Official Documentation: [ShellCheck Wiki](https://github.com/koalaman/shellcheck/wiki)
-
