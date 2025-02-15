@@ -1,4 +1,10 @@
 
+# most useful
+grep -c "ERROR" /var/log/syslog  # Count occurrences of 'ERROR'
+grep -Eo "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" /var/log/syslog | sort | uniq -c | sort -nr  # Count unique IPs
+grep -o "word" file.txt | wc -l  # Count occurrences of 'word'
+grep -i "error" /var/log/syslog  # Find all occurrences of 'error' (case insensitive)
+
 # globbing
 ls -l a*      # * # every character
 ls -l a?      # ? # every single character
