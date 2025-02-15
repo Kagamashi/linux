@@ -26,3 +26,6 @@ ps aux                               # list all processess in user oriented form
 # 	- CMD - exact command including options to start the process; processess in [ ] brackets are kernel processess
 # /proc/[PID] - numerical subdirectory for each running process
 # /proc/[PID]/fd - contains one entry for each file that the process have open
+
+ps aux --sort=-%mem | head -10  # Show top 10 memory-consuming processes
+ps aux --sort=-%cpu | head -10  # Show top 10 CPU-consuming processes
